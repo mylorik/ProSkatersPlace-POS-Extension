@@ -1,0 +1,22 @@
+{
+  "name": "PSP-POS",
+  "short_name": "PSP-POS",
+  "author": "Буль",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Булькает...",
+  "content_scripts": [
+    {
+      "js": [
+        "logic.js",
+        "ui.js"
+      ],
+      "matches": [
+        "https://proskatersplace.com/pos"
+      ]
+    }
+  ],
+  "permissions": [
+    "storage"
+  ]
+}
