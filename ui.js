@@ -26,8 +26,10 @@ async function create_button() {
         try {
             var cart = document.querySelector(".cart-actions").children;
             if (!voided) {
+                //void the current cart
                 voided = true;
                 $('[data-action="void"]').click();
+                //end
             }
             if (cart.length > 0) {
                 if (cart[0].querySelector(".canadian-price") == undefined) {
@@ -58,19 +60,19 @@ window.onload = async function () {
         async function (e) {
             if (hasClass(e.target, "canadian-price")) {
                 for (const product of document.querySelector(".panel-body.list.cart-list").children[0].children) {
-                    const titel = $(product).find('[data-name="title"]').text();
+                    const title = $(product).find('[data-name="title"]').text();
 
-                    if (known_prices[titel] == undefined) {
+                    if (known_prices[title] == undefined) {
                         //get price
                         const price_usd = $(product).find('[data-numpad="discount"]').val().replace(",", "");
                         const fromRate = currency.rates["USD"];
                         const toRate = currency.rates["CAD"];
                         const price_cad_temp = `${((toRate / fromRate) * price_usd).toFixed(2)}`;
-                        known_prices[titel] = price_cad_temp
-                        //end get price
+                        known_prices[title] = price_cad_temp
+                        //end
                     }
 
-                    const price_cad = known_prices[titel];
+                    const price_cad = known_prices[title];
 
                     //input top price
                     $(product).find('[name="item_price"]').click();
@@ -81,7 +83,7 @@ window.onload = async function () {
                         $(`.numpad`).find(`[data-key="${price_cad.charAt(i)}"]`).click();
                     }
                     $('[data-key="ret"]').click();
-                    //end input top price
+                    //end
 
                     //input bottom price
                     if (product.querySelector("#regular_price") == undefined) {
@@ -97,7 +99,7 @@ window.onload = async function () {
                     }
                     $('[data-key="ret"]').click();
                     $(product).find('[data-action="more"]').children()[0].click();
-                    //end input bottom price
+                    //end
                 }
             }
         },
