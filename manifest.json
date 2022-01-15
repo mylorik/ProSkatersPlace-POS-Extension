@@ -1,14 +1,14 @@
 {
   "name": "PSP-POS",
   "short_name": "PSP-POS",
-  "author": "Буль",
-  "version": "0.1",
+  "author": "Artem Kulihin",
+  "version": "1.0",
   "manifest_version": 2,
-  "description": "Булькает...",
+  "description": "Extension to convert USD to CAD for ProSkatersPlace POS",
   "content_scripts": [
     {
       "js": [
-        "logic.js",
+        "jQuery.js",
         "ui.js"
       ],
       "matches": [
