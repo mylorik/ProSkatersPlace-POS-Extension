@@ -2,7 +2,7 @@
   "name": "PSP-POS",
   "short_name": "PSP-POS",
   "author": "Artem Kulihin",
-  "version": "1.1",
+  "version": "1.2",
   "manifest_version": 2,
   "description": "Extension to convert USD to CAD for ProSkatersPlace POS",
   "content_scripts": [
@@ -18,5 +18,8 @@
   ],
   "permissions": [
     "storage"
-  ]
+  ],
+  "browser_action": {
+    "default_popup": "popup.html"
+  }
 }

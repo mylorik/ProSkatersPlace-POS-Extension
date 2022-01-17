@@ -5,7 +5,8 @@ var currency;
 var known_prices = {};
 var exchangerate_ready = false;
 const sleep_time = 250;
-const delete_times = 15;    
+const delete_times = 15;
+
 
 async function get_exchangerate() {
     const result = await $.ajax({
@@ -24,8 +25,36 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+async function get_percentage_offset_storage(index = 'percentage_offset') {
+    try {
+        return new Promise(function (resolve, reject) {
+            browser.storage.sync.get(index, function (recipes) {
+                resolve(recipes);
+            });
+        });
+    }
+    catch (err) {
+        return "буль";
+    }
+}
+async function get_percentage_offset() {
+    var percentage_offset_value = await get_percentage_offset_storage();
+    percentage_offset_value = percentage_offset_value['percentage_offset'];
+    if(percentage_offset_value < 10){
+        return 1.00 + parseFloat(`0.0${percentage_offset_value}`);
+    }
+    if(percentage_offset_value < 100){
+        return 1.00 + parseFloat(`0.${percentage_offset_value}`);
+    }
+    if(percentage_offset_value == 100){
+        return 2;
+    }
+    if(percentage_offset_value == 0){
+        return 1;
+    }
+}
 
-function hasClass(elem, className) {
+function has_class(elem, className) {
     return elem.className.split(" ").indexOf(className) > -1;
 }
 
@@ -105,7 +134,7 @@ async function create_button() {
             }
 
             var cart = document.querySelector(".panel-body.list.cart-list").children[0].children;
-            if (!hasClass(cart[0], "empty")) {
+            if (!has_class(cart[0], "empty")) {
                 for (const product of cart) {
                     if (product.querySelectorAll(".price").length == 1) {
                         $(product).find(".price").clone().insertAfter($(product).find(".price"));
@@ -135,19 +164,17 @@ window.onload = async function () {
     document.addEventListener(
         "click",
         async function (e) {
-            if (hasClass(e.target, "canadian-price")) {
+            if (has_class(e.target, "canadian-price")) {
                 for (const product of document.querySelector(".panel-body.list.cart-list").children[0].children) {
                     //get price
                     const title = $(product).find('[data-name="title"]').text();
-                    var price_usd_check = 0;
+                
                     if (known_prices[title] == undefined) {
                         const price_usd = $(product).find('[data-numpad="discount"]').val().replace(",", "");
-                        price_usd_check = price_usd;
                         const fromRate = currency.rates["USD"];
                         const toRate = currency.rates["CAD"];
-                        const price_cad_temp = `${((toRate / fromRate) * price_usd).toFixed(2)}`;
+                        const price_cad_temp = `${Math.round(((toRate / fromRate) * price_usd) * await get_percentage_offset())}`;
                         known_prices[title] = price_cad_temp
-
                     }
                     const price_cad = known_prices[title];
 
