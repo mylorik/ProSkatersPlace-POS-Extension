@@ -2,11 +2,13 @@ var browser = browser || chrome;
 
 
 var percentage_offset = 0;
+var api_key = "";
 init_from_storage();
 
 function load_default_configuration() {
     set_storage('first_run', true);
     set_storage('percentage_offset', 3);
+    set_storage('api_key', "404");
 }
 
 
@@ -16,6 +18,7 @@ function init_from_storage() {
             load_default_configuration();
         }
         percentage_offset = await get_storage('percentage_offset');
+        api_key = await get_storage('api_key');
 
         main();
     });
@@ -61,6 +64,21 @@ async function constructForm() {
 
     destination.appendChild(label);
     destination.appendChild(input);
+
+    //api_key
+    var destination = document.createElement("p");
+    document.getElementsByClassName("content")[0].appendChild(destination);
+    var label = document.createElement('label');
+    label.htmlFor = "api_key";
+    label.appendChild(document.createTextNode('API Key: '));
+    var input = document.createElement("INPUT");
+    input.setAttribute("type", "string");
+    input.setAttribute("id", "api_key");
+    input.value = api_key;
+    input.classList.add("api_key");
+
+    destination.appendChild(label);
+    destination.appendChild(input);
 }
 
 
@@ -74,6 +92,10 @@ async function eventConstructForm() {
             value = 0;
         }
         set_storage('percentage_offset', value);
+    });
+
+    document.querySelector('.api_key').addEventListener('change', (event) => {
+        set_storage('api_key', event.target.value);
     });
 }
 

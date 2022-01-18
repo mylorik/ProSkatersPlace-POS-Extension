@@ -1,6 +1,5 @@
 var browser = browser || chrome;
 //
-const api = "https://api.exchangerate-api.com/v4/latest/USD";
 var currency;
 var known_prices = {};
 var exchangerate_ready = false;
@@ -8,24 +7,11 @@ const sleep_time = 250;
 const delete_times = 15;
 
 
-async function get_exchangerate() {
-    const result = await $.ajax({
-        url: api,
-        type: "GET",
-    });
-    if (result.rates["USD"] != undefined) {
-        exchangerate_ready = true;
-        console.log("Exchange rate is ready!");
-    }
-    return (currency = result);
-}
-
-
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function get_percentage_offset_storage(index = 'percentage_offset') {
+async function get_storage(index = 'percentage_offset') {
     try {
         return new Promise(function (resolve, reject) {
             browser.storage.sync.get(index, function (recipes) {
@@ -38,7 +24,7 @@ async function get_percentage_offset_storage(index = 'percentage_offset') {
     }
 }
 async function get_percentage_offset() {
-    var percentage_offset_value = await get_percentage_offset_storage();
+    var percentage_offset_value = await get_storage();
     percentage_offset_value = percentage_offset_value['percentage_offset'];
     if(percentage_offset_value < 10){
         return 1.00 + parseFloat(`0.0${percentage_offset_value}`);
@@ -52,6 +38,20 @@ async function get_percentage_offset() {
     if(percentage_offset_value == 0){
         return 1;
     }
+}
+
+async function get_exchangerate() {
+    var api_key = await get_storage("api_key");
+    api_key = api_key["api_key"];
+    const result = await $.ajax({
+        url: `https://v6.exchangerate-api.com/v6/${api_key}/latest/USD`,
+        type: "GET",
+    });
+    if (result.conversion_rates["USD"] != undefined) {
+        exchangerate_ready = true;
+        console.log("Exchange rate is ready!");
+    }
+    return (currency = result);
 }
 
 function has_class(elem, className) {
@@ -171,9 +171,12 @@ window.onload = async function () {
                 
                     if (known_prices[title] == undefined) {
                         const price_usd = $(product).find('[data-numpad="discount"]').val().replace(",", "");
-                        const fromRate = currency.rates["USD"];
-                        const toRate = currency.rates["CAD"];
-                        const price_cad_temp = `${Math.round(((toRate / fromRate) * price_usd) * await get_percentage_offset())}`;
+                        const fromRate = currency.conversion_rates["USD"]
+                        const toRate = currency.conversion_rates["CAD"].toFixed(3);
+                        const converted = (toRate / fromRate) * price_usd;
+                        const offset = await get_percentage_offset();
+                        const price_cad_temp = `${Math.round(converted * offset)}`;
+                        console.log(price_cad_temp);
                         known_prices[title] = price_cad_temp
                     }
                     const price_cad = known_prices[title];
