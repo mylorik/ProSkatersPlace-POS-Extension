@@ -1,0 +1,565 @@
+/*
+https://levelup.gitconnected.com/create-a-multi-step-form-using-html-css-and-javascript-30aca5c062fc
+*/
+#primary {
+    display: flex;
+  }
+  
+  a,
+  a:hover {
+    color: black;
+  }
+  
+  .chartForm {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  .chartForm .slide {
+    background-color: rgba(200, 200, 200, 0.3);
+    width: 40vw;
+  }
+  
+  .prompt p {
+    margin: 0;
+  }
+  
+  .slide fieldset {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    padding: 1vh 1vw;
+  }
+  
+  .navButton {
+    padding: 0.7rem 1.5rem;
+    border: 1px solid #34495e;
+    background-color: #34495e;
+    color: white;
+    cursor: pointer;
+    border-radius: 0;
+  }
+  
+  .navButton:disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    cursor: not-allowed;
+  }
+  
+  .submit-btn {
+    border: 1px solid #34495e;
+    background-color: #34495e;
+  }
+  
+  /*Form stepper*/
+  .d-none {
+    display: none;
+  }
+  
+  ul.form-stepper {
+    width: 50vw;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+  }
+  
+  ul.form-stepper .form-stepper-circle {
+    position: relative;
+  }
+  ul.form-stepper .form-stepper-circle span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+  
+  .form-stepper-horizontal {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+  }
+  ul.form-stepper > li:not(:last-of-type) {
+    margin-bottom: 0.625rem;
+    -webkit-transition: margin-bottom 0.4s;
+    -o-transition: margin-bottom 0.4s;
+    transition: margin-bottom 0.4s;
+  }
+  
+  .form-stepper-horizontal li {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: start;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+  }
+  .form-stepper-horizontal a {
+    width: 3vw;
+  }
+  .form-stepper-horizontal li:not(:last-child):after {
+    position: relative;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: 1px;
+    content: "";
+    top: 32%;
+    width: 20vw;
+  }
+  .form-stepper-horizontal li:after {
+    background-color: #dee2e6;
+  }
+  .form-stepper-horizontal li.form-stepper-completed:after {
+    background-color: #34495e;
+  }
+  .form-stepper-horizontal li:last-child {
+    flex: unset;
+  }
+  ul.form-stepper li a .form-stepper-circle {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-right: 0;
+    line-height: 1.7rem;
+    text-align: center;
+    background-color: #efefef;
+    border-radius: 50%;
+  }
+  .form-stepper .form-stepper-active .form-stepper-circle {
+    background-color: #34495e;
+    color: #fff;
+  }
+  .form-stepper .form-stepper-active .label {
+    color: #34495e;
+  }
+  .form-stepper .form-stepper-active .form-stepper-circle:hover {
+    background-color: #34495e;
+    color: #fff;
+  }
+  .form-stepper .form-stepper-unfinished .form-stepper-circle {
+    background-color: #f8f7ff;
+  }
+  .form-stepper .form-stepper-completed .form-stepper-circle {
+    background-color: #0e9594;
+    color: #fff;
+  }
+  .form-stepper .form-stepper-completed .label {
+    color: #0e9594;
+  }
+  .form-stepper .form-stepper-completed .form-stepper-circle:hover {
+    background-color: #0e9594;
+    color: #fff;
+  }
+  .form-stepper .form-stepper-active span.text-muted {
+    color: #fff;
+  }
+  .form-stepper .form-stepper-completed span.text-muted {
+    color: #fff;
+  }
+  .form-stepper .label {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+  .form-stepper a {
+    cursor: default;
+  }
+  /*Form stepper end*/
+  
+  .measurePoints {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .measurePoint {
+    background-color: rgba(0, 0, 0, 0.06694560669);
+    border: 1px solid #ddd;
+    margin: 3px 3px 3px 0;
+    padding: 3px 4px;
+    line-height: 25px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 0;
+  }
+  
+  .measurePoint:hover {
+    background-color: rgba(0, 0, 0, 0.07694560669);
+    border-color: #34495e;
+  }
+  
+  .formContent {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    margin: 1vh 1vw;
+    min-height: 12vh;
+  }
+  
+  .navButtons {
+    align-self: flex-end;
+    width: 100%;
+    min-height: 5vh;
+  }
+  
+  .navButtonsContainer .navNext {
+    align-self: flex-end;
+  }
+  
+  .navButtonsContainer {
+    margin: 1vh 1vw;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /*
+    Make sure the next button in the first slide is properly placed
+    */
+  .navButtons .navNext:only-child {
+    margin-left: auto;
+  }
+  
+  #finalButton:hover:enabled {
+    background-color: #dc9814;
+  }
+  
+  /*
+    Radio switch 1st slide
+    */
+  .radioSwitch {
+    display: flex;
+    overflow: hidden;
+    gap: 2px;
+  }
+  
+  .radioSwitch input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+  }
+  
+  .radioSwitch label {
+    background-color: rgba(0, 0, 0, 0.06694560669);
+    text-align: center;
+    padding: 1vh 1vw;
+    border: 1px solid #ddd;
+    transition: all 0.1s ease-in-out;
+  }
+  
+  .radioSwitch label:hover {
+    background-color: rgba(0, 0, 0, 0.07694560669);
+    border-color: #34495e;
+  }
+  
+  .radioSwitch label:hover {
+    cursor: pointer;
+  }
+  
+  .radioSwitch input:checked + label {
+    background-color: #34495e;
+    box-shadow: none;
+    color: white;
+  }
+  
+  button.measurePoint {
+    transition: all 0.1s ease-in-out;
+  }
+  
+  .measurePoint.clicked {
+    background-color: #34495e;
+    color: white;
+  }
+  
+  .error {
+    color: rgb(190, 0, 0);
+    display: flex;
+    flex-direction: column;
+    display: none;
+  }
+  
+  .errorArea {
+    border: solid 1px rgb(190, 0, 0);
+  }
+  
+  @media (max-width: 1300px) {
+    .form-stepper-horizontal {
+      display: none;
+    }
+  
+    .chartForm * {
+      font-size: 1.2rem;
+    }
+  
+    .chartForm .slide {
+      width: 100vw;
+    }
+  
+    .chartForm .formContent {
+      display: flex;
+      flex-direction: column;
+      gap: 1vh;
+      min-height: 40vh;
+    }
+  
+    .chartForm .navButtons {
+      min-height: 6vh;
+    }
+  
+    .chartForm .slide1 label,
+    .chartForm .slide3 .measurePoint {
+      padding: 3vh 3vw;
+    }
+  
+    .chartForm .slide3 .answer {
+      display: flex;
+      flex-direction: column;
+      gap: 2vh;
+    }
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  /*make rows striped*/
+  .conversionTableContent tr:nth-child(even) {
+    background-color: rgba(200, 200, 200, 0.3);
+  }
+  .container {
+    display: flex;
+  }
+  
+  .leftCol {
+    margin: 0 10vh;
+  }
+  
+  .rightCol {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .brands {
+    margin-bottom: 10vh;
+  }
+  /*
+    .leftCol {
+      background-color: #8bb;
+    }
+    .brands {
+      background-color:#c7b;
+    }
+    */
+  
+  table {
+    background-color: rgba(200, 200, 200, 0.2);
+  }
+  
+  thead th {
+    font-family: "Roboto", sans-serif;
+    font-weight: 540;
+    color: white;
+    background-color: #dc9814;
+    padding: 2vh;
+  }
+  
+  .chart{
+    display:none;
+  }
+  
+  @media (min-height: 500px) {
+    thead th {
+      padding: 1vh;
+    }
+  }
+  
+  #skateSize {
+    border-radius: 3px 0 0 0;
+  }
+  
+  #shoeSize {
+    border-radius: 0 3px 0 0;
+  }
+  
+  tbody td,
+  tbody th {
+    padding: 1vh 0.5vh;
+  }
+  
+  tr {
+    text-align: center;
+  }
+  
+  tbody th {
+    background-color: rgba(52, 73, 94, 0.2);
+  }
+  
+  td,
+  th {
+    min-width: 60px;
+    position: relative;
+    cursor: default;
+  }
+  
+  table {
+    border-spacing: 1px;
+  }
+  
+  .brandContainer {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+  }
+  
+  .skateChoice,
+  .brandChoice {
+    background-color: rgba(0, 0, 0, 0.06694560669);
+    border: 1px solid #ddd;
+    margin: 3px 3px 3px 0;
+    padding: 3px 4px;
+    line-height: 25px;
+    text-align: center;
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .skateChoice:hover,
+  .brandChoice:hover {
+    background-color: rgba(0, 0, 0, 0.07694560669);
+    border-color: #34495e;
+  }
+  
+  .clicked {
+    border-color: #34495e;
+    color: #fff;
+    transition-duration: 0.1s;
+    transition-property: color;
+    transition-timing-function: ease-in-out;
+  }
+  
+  /*hovering the table*/
+  
+  table {
+    overflow: hidden;
+  }
+  
+  tbody td:hover::before,
+  tbody th:hover::before {
+    background-color: rgba(80, 80, 150, 0.2);
+    content: "";
+    height: 100%;
+    left: -5000px;
+    position: absolute;
+    top: 0;
+    width: 10000px;
+    z-index: -2;
+    border: 1px solid rgba(80, 80, 150, 0.4);
+  }
+  
+  td:hover::after {
+    background-color: rgba(80, 80, 150, 0.2);
+    content: "";
+    height: 10000px;
+    left: 0;
+    position: absolute;
+    top: -5000px;
+    width: 100%;
+    z-index: -1;
+  }
+  
+  .selectSkateStyle {
+    z-index: -2;
+  
+    transition-duration: 0.3s;
+    transition-property: transform;
+    transition-timing-function: ease-in-out;
+  
+    position: absolute;
+    top: 0;
+  
+    background-color: #34495e;
+    color: #fff;
+    border: 1px solid #ddd;
+    margin: 3px 3px 3px 0;
+    text-align: center;
+    overflow: hidden;
+  }
+
+
+  body {
+    font-family: Arial, sans-serif;
+  }
+  
+  
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  tr td:last-child {
+    width: 1%;
+    white-space: nowrap;
+  }
+  
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+  .left-corner {
+    text-align: left;
+  }
+  
+  .right-corner {
+    text-align: right;
+  }
+
+/* Add your desired initial table size styles here */
+.form-table {
+    width: 50%;
+}
+
+
+.psp-brand-dropdown {
+  height: 50%;
+  transition: width 0.3s ease; /* Add a smooth transition effect */
+}
+.psp-brand-dropdown.expanded {
+  height: 700px;
+}
